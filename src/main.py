@@ -1,6 +1,7 @@
 import discord
 import asyncio
 import config
+import datetime
 
 server_channels = {} # Server channel cache
 client = discord.Client()
@@ -50,15 +51,15 @@ async def on_voice_state_update(member_before, member_after):
     
     if voice_channel_before == None:
         # The member was not on a voice channel before the change
-        msg = "%s joined voice channel _%s_" % (member_after.mention, voice_channel_after.name)
+        msg = "`%s %s` joined _%s_ `%s`" % (member_after.mention, member_after.name, voice_channel_after.name, datetime.datetime.utcnow())
     else:
         # The member was on a voice channel before the change
         if voice_channel_after == None:
             # The member is no longer on a voice channel after the change
-            msg = "%s left voice channel _%s_" % (member_after.mention, voice_channel_before.name)
+            msg = "`%s %s` left _%s_ `%s`" % (member_after.mention, member_after.name, voice_channel_before.name, datetime.datetime.utcnow())
         else:
             # The member is still on a voice channel after the change
-            msg = "%s switched from voice channel _%s_ to _%s_" % (member_after.mention, voice_channel_before.name, voice_channel_after.name)
+           msg = "`%s %s` switched _%s_ to _%s_ `%s`" % (member_after.mention, member_after.name, voice_channel_before.name, voice_channel_after.name, datetime.datetime.utcnow())
     
     # Try to log the voice event to the channel
     try:
